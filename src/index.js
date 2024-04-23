@@ -3,11 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import TextSummarization from './pages/TextSummarization';
+import ParagraphGenerator from './pages/ParagraphGenerator';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<App />} />
+        <Route path='/summarize' element={<TextSummarization />}/>
+        <Route path='/generate' element={<ParagraphGenerator />}/>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
