@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SaveButton from './SaveButton';
 import { auth } from '../config/FirebaseConfig';
 
@@ -22,7 +22,6 @@ function TextGenerator({ apiUrl, actionName, actionDescription }) {
     return '';
   }
 
-    
   const handleSubmit = async () => {
     const validationResult = validateText(inputText);
     if (validationResult) {
@@ -39,12 +38,12 @@ function TextGenerator({ apiUrl, actionName, actionDescription }) {
       const token = await user.getIdToken();
 
       const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      },
-      body: JSON.stringify({ title: inputTitle, text: inputText }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ title: inputTitle, text: inputText }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,7 +61,12 @@ function TextGenerator({ apiUrl, actionName, actionDescription }) {
     } finally {
       setIsloading(false);
     }
-    }
+  }
+
+  useEffect(() => {
+    setResultTitle('Default Title');
+    setResultText('This is a default paragraph for testing purposes. It is displayed to test the frontend layout and styling of the TextGenerator component.');
+  }, []);
 
   return (
     <div className='min-h-screen w-full bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 flex justify-center items-center p-4'>
@@ -94,17 +98,16 @@ function TextGenerator({ apiUrl, actionName, actionDescription }) {
           {resultText && (
             <SaveButton title={resultTitle} content={resultText}/>
           )}
-      </div>
-      <div>
-        <div className='text-gray-800 font-bold'>{resultTitle}</div>
-        <div className="text-gray-800">
-          {resultText || error}
         </div>
-      </div>
+        <div>
+          <div className='text-gray-800 font-bold'>{resultTitle}</div>
+          <div className="text-gray-800">
+            {resultText || error}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
 
 export default TextGenerator;
