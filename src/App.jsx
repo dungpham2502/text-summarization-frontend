@@ -8,7 +8,6 @@ function App() {
     <div>
       <HeroSection />
       <FeaturesSection />
-      <Footer />
     </div>
   );
 }

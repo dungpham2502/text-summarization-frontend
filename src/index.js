@@ -7,18 +7,33 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import TextSummarization from './pages/TextSummarization';
 import ParagraphGenerator from './pages/ParagraphGenerator';
+import SignUp from './pages/Signup';
+import Footer from './components/Footer';
+import History from './pages/History';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAuthState } from 'react-firebase-hooks/auth';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+     <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path='/' element={<App />} />
-        <Route path='/summarize' element={<TextSummarization />}/>
-        <Route path='/generate' element={<ParagraphGenerator />}/>
+        <Route path='/summarize' element={
+          <ProtectedRoute><TextSummarization /></ProtectedRoute>
+        }/>
+        <Route path='/generate' element={
+          <ProtectedRoute><ParagraphGenerator /></ProtectedRoute>
+        }/>
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/history' element={
+          <ProtectedRoute><History /></ProtectedRoute>
+        }/>
       </Routes>
+      <Footer />
     </BrowserRouter>
   </React.StrictMode>
 );
